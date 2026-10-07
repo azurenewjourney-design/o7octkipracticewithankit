@@ -1,0 +1,82 @@
+trigger: none
+pool: Ankit-DevSecOps-Pool
+stages:
+  - stage: terraforminitandvalidation
+    displayName: terraform init and validation
+    jobs:
+      - job: terraforminitandvalidation
+        displayName: terraform init and validation
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'Ankit-DevSecOps-ServiceConnection'
+            backendAzureRmOverrideSubscriptionID: 'eacc5e4e-04a0-479c-b82a-f5b2d1b21f47'
+            backendAzureRmResourceGroupName: 'rg101'
+            backendAzureRmStorageAccountName: 'stterraformnalla21'
+            backendAzureRmContainerName: 'tfstatenalla22'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+  - stage: terraforminitandplan
+    displayName: terraform init and plan
+    dependsOn: terraforminitandvalidation
+    jobs:
+      - job: terraforminitandplan
+        displayName: terraform init and plan
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'Ankit-DevSecOps-ServiceConnection'
+            backendAzureRmOverrideSubscriptionID: 'eacc5e4e-04a0-479c-b82a-f5b2d1b21f47'
+            backendAzureRmResourceGroupName: 'rg101'
+            backendAzureRmStorageAccountName: 'stterraformnalla21'
+            backendAzureRmContainerName: 'tfstatenalla22'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            environmentServiceNameAzureRM: 'Ankit-DevSecOps-ServiceConnection'
+            environmentAzureRmOverrideSubscriptionID: 'eacc5e4e-04a0-479c-b82a-f5b2d1b21f47'
+  - stage: ManualApproval
+    displayName: Manual Approval
+    dependsOn: terraforminitandplan
+    jobs:
+      - job: Manualapproval
+        displayName: Manual Approval
+        pool: server
+        steps:
+        - task: ManualValidation@1
+          inputs:
+            notifyUsers: 'azurenewjourney@gmail.com'
+            approvers: 'azurenewjourney@gmail.com'
+            instructions: 'Please approve.'
+  - stage: terraforminitandapply
+    displayName: terraform init and apply
+    dependsOn: ManualApproval
+    jobs:
+      - job: terraforminitandapply
+        displayName: terraform init and apply
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'Ankit-DevSecOps-ServiceConnection'
+            backendAzureRmOverrideSubscriptionID: 'eacc5e4e-04a0-479c-b82a-f5b2d1b21f47'
+            backendAzureRmResourceGroupName: 'rg101'
+            backendAzureRmStorageAccountName: 'stterraformnalla21'
+            backendAzureRmContainerName: 'tfstatenalla22'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            environmentServiceNameAzureRM: 'Ankit-DevSecOps-ServiceConnection'
+            environmentAzureRmOverrideSubscriptionID: 'eacc5e4e-04a0-479c-b82a-f5b2d1b21f47'
