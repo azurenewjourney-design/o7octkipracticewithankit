@@ -10,6 +10,7 @@ terraform {
     storage_account_name = "stterraformnalla21"
     container_name       = "tfstatenalla22"
     key                  = "terraform.tfstate"
+    use_azuread_auth     = true
   }
 
 
