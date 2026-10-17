@@ -2,7 +2,7 @@
 trigger: none
 
 pool:
-  name: Ankit-DevSecOps-Pool
+  name: Final-pool_17oct
 
 stages:
   - stage: BasicPipeline
