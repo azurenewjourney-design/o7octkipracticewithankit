@@ -88,7 +88,7 @@ stages:
   - stage: SecondStage
     displayName: Second Stage
     dependsOn: BasicPipeline
-    condition: and(succeeded(), eq(${{ parameters.runSecondStage }}, true))
+    condition: and(succeeded(), eq(variables['environmentName'], 'PROD'))
     jobs:
       - job: SecondJob
         displayName: Second Job
