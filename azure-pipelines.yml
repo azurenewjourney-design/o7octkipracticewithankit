@@ -4,9 +4,16 @@ trigger: none
 pool:
   name: Final-pool_17oct
 
+parameters:
+  - name: runValidation
+    displayName: Run Validation Stage
+    type: boolean
+    default: true
+
 stages:
   - stage: BasicPipeline
     displayName: Basic Pipeline
+    condition: and(succeeded(), eq(${{ parameters.runValidation }}, true))
     jobs:
       - job: FirstJob
         displayName: First Job
@@ -16,10 +23,12 @@ stages:
 
   - stage: SecondStage
     displayName: Second Stage
+    dependsOn: BasicPipeline
     jobs:
       - job: SecondJob
         displayName: Second Job
         steps:
           - script: echo "My second stage is running."
             displayName: Print Second Message
+
 
