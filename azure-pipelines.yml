@@ -4,16 +4,15 @@ trigger: none
 pool:
   name: Final-pool_17oct
 
-
 variables:
   - group: 17Oct-Pipeline-Variables
-
 
 parameters:
   - name: runValidation
     displayName: Run Validation Stage
     type: boolean
     default: true
+
   - name: runSecondStage
     displayName: Run Second Stage
     type: boolean
@@ -29,24 +28,23 @@ stages:
         steps:
           - script: echo "Hello! My first YAML pipeline is running."
             displayName: Print Hello Message
-        
+
           - script: |
               echo "Message: $(message)"
               echo "Environment: $(environmentName)"
             displayName: Print Pipeline Variables
 
           - template: templates/print-message.yml
-          parameters:
-            messageText: 'Hello from Validation'
-            environmentText: 'QA'
-            runMessage: true
+            parameters:
+              messageText: 'Hello from Validation'
+              environmentText: 'QA'
+              runMessage: true
 
-        - template: templates/print-message.yml
-          parameters:
-            messageText: 'Hello from Production'
-            environmentText: 'PROD'
-            runMessage: false
-
+          - template: templates/print-message.yml
+            parameters:
+              messageText: 'Hello from Production'
+              environmentText: 'PROD'
+              runMessage: false
 
   - stage: SecondStage
     displayName: Second Stage
@@ -58,5 +56,4 @@ stages:
         steps:
           - script: echo "My second stage is running."
             displayName: Print Second Message
-
 
