@@ -1,7 +1,14 @@
 
+
+parameters:
+  - name: messageText
+    type: string
+    default: 'Hello from reusable template'
+
 steps:
   - script: |
-      echo "Hello from reusable YAML template!"
+      echo "${{ parameters.messageText }}"
       echo "Environment: $(environmentName)"
-    displayName: 'Print Message From Template'
+    displayName: 'Print Parameterized Message'
+
 
