@@ -13,3 +13,13 @@ stages:
         steps:
           - script: echo "Hello! My first YAML pipeline is running."
             displayName: Print Hello Message
+
+  - stage: SecondStage
+    displayName: Second Stage
+    jobs:
+      - job: SecondJob
+        displayName: Second Job
+        steps:
+          - script: echo "My second stage is running."
+            displayName: Print Second Message
+
