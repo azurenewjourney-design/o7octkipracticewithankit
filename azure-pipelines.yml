@@ -1,0 +1,15 @@
+
+trigger: none
+
+pool:
+  name: Ankit-DevSecOps-Pool
+
+stages:
+  - stage: BasicPipeline
+    displayName: Basic Pipeline
+    jobs:
+      - job: FirstJob
+        displayName: First Job
+        steps:
+          - script: echo "Hello! My first YAML pipeline is running."
+            displayName: Print Hello Message
