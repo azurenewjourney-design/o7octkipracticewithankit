@@ -4,9 +4,10 @@ trigger: none
 pool:
   name: Final-pool_17oct
 
+
 variables:
-  message: 'Hello from Azure Pipeline'
-  environmentName: 'QA'
+  - group: 17Oct-Pipeline-Variables
+
 
 parameters:
   - name: runValidation
