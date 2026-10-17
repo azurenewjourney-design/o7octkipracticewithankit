@@ -63,10 +63,10 @@ stages:
               echo "This step will fail, but the job should continue."
               exit 1
             displayName: Continue On Error Test
-            continueOnError: false
+            continueOnError: true
 
           - script: |
-              echo "Pipeline not continued after the failed step."
+              echo "Pipeline continued after the failed step."
             displayName: Verify Pipeline Continued
 
 
