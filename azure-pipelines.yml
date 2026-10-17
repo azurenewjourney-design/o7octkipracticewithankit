@@ -92,3 +92,14 @@ stages:
           - script: echo "My second stage is running."
             displayName: Print Second Message
 
+  - stage: DeployStage
+    displayName: Deploy Stage
+    dependsOn: SecondStage
+    condition: succeeded()
+    jobs:
+      - job: DeployJob
+        displayName: Deploy Job
+        steps:
+          - script: echo "Application deployed successfully."
+            displayName: Deployment Message
+
