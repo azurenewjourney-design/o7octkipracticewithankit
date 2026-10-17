@@ -36,14 +36,16 @@ stages:
             displayName: Print Pipeline Variables
 
           - template: templates/print-message.yml
-            parameters:
-              messageText: 'Hello from Validation'
-              environmentText: 'QA'
+          parameters:
+            messageText: 'Hello from Validation'
+            environmentText: 'QA'
+            runMessage: true
 
-          - template: templates/print-message.yml
-            parameters:
-              messageText: 'Hello from Production'
-              environmentText: 'PROD'
+        - template: templates/print-message.yml
+          parameters:
+            messageText: 'Hello from Production'
+            environmentText: 'PROD'
+            runMessage: false
 
 
   - stage: SecondStage
