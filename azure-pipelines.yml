@@ -69,6 +69,13 @@ stages:
               echo "Pipeline continued after the failed step."
             displayName: Verify Pipeline Continued
 
+         
+          - script: |
+              echo "This step runs after success or failure."
+            displayName: Succeeded Or Failed Test
+            condition: succeededOrFailed()
+
+
 
 
   - stage: SecondStage
