@@ -4,6 +4,10 @@ trigger: none
 pool:
   name: Final-pool_17oct
 
+variables:
+  message: 'Hello from Azure Pipeline'
+  environmentName: 'DEV'
+
 parameters:
   - name: runValidation
     displayName: Run Validation Stage
@@ -24,6 +28,12 @@ stages:
         steps:
           - script: echo "Hello! My first YAML pipeline is running."
             displayName: Print Hello Message
+        
+          - script: |
+              echo "Message: $(message)"
+              echo "Environment: $(environmentName)"
+            displayName: Print Pipeline Variables
+
 
   - stage: SecondStage
     displayName: Second Stage
