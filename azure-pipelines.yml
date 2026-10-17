@@ -9,6 +9,10 @@ parameters:
     displayName: Run Validation Stage
     type: boolean
     default: true
+  - name: runSecondStage
+    displayName: Run Second Stage
+    type: boolean
+    default: true
 
 stages:
   - stage: BasicPipeline
@@ -24,6 +28,7 @@ stages:
   - stage: SecondStage
     displayName: Second Stage
     dependsOn: BasicPipeline
+    condition: and(succeeded(), eq(${{ parameters.runSecondStage }}, true))
     jobs:
       - job: SecondJob
         displayName: Second Job
