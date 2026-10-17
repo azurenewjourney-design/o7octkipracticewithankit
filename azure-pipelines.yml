@@ -38,10 +38,12 @@ stages:
           - template: templates/print-message.yml
             parameters:
               messageText: 'Hello from Validation'
+              environmentText: 'QA'
 
           - template: templates/print-message.yml
             parameters:
               messageText: 'Hello from Production'
+              environmentText: 'PROD'
 
 
   - stage: SecondStage
