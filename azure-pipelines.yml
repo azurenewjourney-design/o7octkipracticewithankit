@@ -75,6 +75,13 @@ stages:
             displayName: Succeeded Or Failed Test
             condition: succeededOrFailed()
 
+          
+          - script: |
+              echo "This is the Production-only step."
+            displayName: Production Only Step
+            condition: and(succeeded(), eq(variables['environmentName'], 'PROD'))
+
+
 
 
 
