@@ -45,6 +45,16 @@ stages:
               messageText: 'Hello from Production'
               environmentText: 'PROD'
               runMessage: false
+              
+          - script: |
+              echo "This step will fail intentionally."
+              exit 1
+            displayName: Intentionally Fail Step
+
+          - script: |
+              echo "Failure detected! Running diagnostic message."
+            displayName: Handle Failure
+            condition: failed()     
 
   - stage: SecondStage
     displayName: Second Stage
