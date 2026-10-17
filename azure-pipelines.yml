@@ -35,6 +35,8 @@ stages:
               echo "Environment: $(environmentName)"
             displayName: Print Pipeline Variables
 
+          - template: templates/print-message.yml
+
 
   - stage: SecondStage
     displayName: Second Stage
