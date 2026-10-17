@@ -39,6 +39,10 @@ stages:
             parameters:
               messageText: 'Hello from Validation'
 
+          - template: templates/print-message.yml
+            parameters:
+              messageText: 'Hello from Production'
+
 
   - stage: SecondStage
     displayName: Second Stage
