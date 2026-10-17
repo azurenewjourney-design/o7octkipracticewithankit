@@ -59,11 +59,7 @@ stages:
             condition: always()
 
         
-          - script: |
-              echo "This step will fail, but the job should continue."
-              exit 1
-            displayName: Continue On Error Test
-            continueOnError: true
+          
 
           - script: |
               echo "Pipeline continued after the failed step."
