@@ -1,5 +1,4 @@
 
-
 parameters:
   - name: messageText
     type: string
@@ -9,10 +8,17 @@ parameters:
     type: string
     default: 'DEV'
 
+  - name: runMessage
+    displayName: Run Message
+    type: boolean
+    default: true
+
 steps:
   - script: |
       echo "${{ parameters.messageText }}"
       echo "Environment: ${{ parameters.environmentText }}"
     displayName: 'Print Parameterized Message'
+    condition: and(succeeded(), eq(${{ parameters.runMessage }}, true))
+
 
 
