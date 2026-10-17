@@ -6,7 +6,7 @@ pool:
 
 variables:
   message: 'Hello from Azure Pipeline'
-  environmentName: 'DEV'
+  environmentName: 'QA'
 
 parameters:
   - name: runValidation
