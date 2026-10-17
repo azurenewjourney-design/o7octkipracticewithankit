@@ -5,10 +5,14 @@ parameters:
     type: string
     default: 'Hello from reusable template'
 
+  - name: environmentText
+    type: string
+    default: 'DEV'
+
 steps:
   - script: |
       echo "${{ parameters.messageText }}"
-      echo "Environment: $(environmentName)"
+      echo "Environment: ${{ parameters.environmentText }}"
     displayName: 'Print Parameterized Message'
 
 
