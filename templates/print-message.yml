@@ -1,1 +1,7 @@
 
+steps:
+  - script: |
+      echo "Hello from reusable YAML template!"
+      echo "Environment: $(environmentName)"
+    displayName: 'Print Message From Template'
+
