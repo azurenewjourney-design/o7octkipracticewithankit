@@ -56,6 +56,11 @@ stages:
             displayName: Handle Failure
             condition: failed()     
 
+        - script: |
+              echo "This step runs for success or failure."
+            displayName: Always Run Message
+            condition: always()
+
   - stage: SecondStage
     displayName: Second Stage
     dependsOn: BasicPipeline
