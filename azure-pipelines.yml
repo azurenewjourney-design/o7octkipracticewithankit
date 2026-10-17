@@ -36,6 +36,8 @@ stages:
             displayName: Print Pipeline Variables
 
           - template: templates/print-message.yml
+            parameters:
+              messageText: 'Hello from Validation'
 
 
   - stage: SecondStage
