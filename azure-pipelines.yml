@@ -48,6 +48,53 @@ stages:
             displayName: Terraform Init
             workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+  
+  
+  - stage: TerraformValidate
+    displayName: Terraform Validate
+    dependsOn: TerraformInit
+    condition: succeeded()
+    jobs:
+      - job: ValidateJob
+        displayName: Validate Terraform Configuration
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: '1.13.3'
+
+          - script: terraform init
+            displayName: Terraform Init for Validate
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+          - script: terraform validate
+            displayName: Terraform Validate
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+  - stage: TerraformPlan
+    displayName: Terraform Plan
+    dependsOn: TerraformValidate
+    condition: succeeded()
+    jobs:
+      - job: PlanJob
+        displayName: Generate Terraform Plan
+        steps:
+          - checkout: self
+
+          - script: terraform init
+            displayName: Terraform Init for Plan
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+          - script: terraform plan -out=tfplan
+            displayName: Terraform Plan
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+          - publish: '$(System.DefaultWorkingDirectory)/tfplan'
+            artifact: terraform-plan
+            displayName: Publish Terraform Plan
+
 
   - stage: BasicPipeline
     displayName: Basic Pipeline
@@ -96,9 +143,7 @@ stages:
   
   - stage: ApprovalStage
     displayName: Manual Approval
-    dependsOn:
-      - TestStage
-      - SecurityStage
+    dependsOn: TerraformPlan
     condition: succeeded()
     jobs:
       - job: WaitForApproval
@@ -113,10 +158,39 @@ stages:
               instructions: 'Please review the pipeline results and approve to continue.'
               onTimeout: reject
 
+  - stage: TerraformApply
+    displayName: Terraform Apply
+    dependsOn:
+      - TerraformPlan
+      - ApprovalStage
+    condition: succeeded()
+    jobs:
+      - job: ApplyJob
+        displayName: Apply Terraform Plan
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: 'latest'
+
+          - download: current
+            artifact: terraform-plan
+            displayName: Download Terraform Plan
+
+          - script: terraform init
+            displayName: Terraform Init for Apply
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+          - script: terraform apply -auto-approve "$(Pipeline.Workspace)/terraform-plan/tfplan"
+            displayName: Terraform Apply
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+
 
   - stage: FinalStage
     displayName: Final Stage
-    dependsOn: ApprovalStage
+    dependsOn: TerraformApply
     condition: succeeded()
     jobs:
       - job: FinalJob
