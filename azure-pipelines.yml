@@ -48,9 +48,7 @@ stages:
       - job: SecondJob
         displayName: Second Job
         
-        steps:
-          - script: echo "Second Stage is running."
-            displayName: Second Stage Message
+    
 
        
         steps:
