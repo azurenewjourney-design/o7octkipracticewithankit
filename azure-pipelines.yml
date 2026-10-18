@@ -52,15 +52,8 @@ stages:
 
        
         steps:
-          - script: |
-              echo "Testing continueOnError"
-              exit 1
-            displayName: 'Step 1 - Intentional Failure'
-            continueOnError: true
-
-          - script: |
-              echo "Step 2 - Pipeline continued successfully"
-            displayName: 'Step 2 - Continue Pipeline'
+          - script: echo "Second Stage is running."
+            displayName: Second Stage Message
 
 
 
