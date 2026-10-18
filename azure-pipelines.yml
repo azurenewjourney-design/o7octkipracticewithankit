@@ -69,7 +69,7 @@ stages:
     dependsOn:
       - TestStage
       - SecurityStage
-    condition: succeeded()
+    condition: always()
     jobs:
       - job: FinalJob
         displayName: Final Job
