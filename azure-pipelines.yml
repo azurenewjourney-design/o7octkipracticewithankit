@@ -48,8 +48,10 @@ stages:
       - job: TestJob
         displayName: Test Job
         steps:
-          - script: echo "Running tests..."
-            displayName: Run Tests
+          - script: |
+              echo "Testing parallel stage failure"
+              exit 1
+            displayName: Intentionally Fail Test Stage
 
   - stage: SecurityStage
     displayName: Security Stage
