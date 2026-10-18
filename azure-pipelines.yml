@@ -48,10 +48,8 @@ stages:
       - job: TestJob
         displayName: Test Job
         steps:
-          - script: |
-              echo "Testing parallel stage failure"
-              exit 1
-            displayName: Intentionally Fail Test Stage
+          - script: echo "Running tests..."
+            displayName: Run Tests
 
   - stage: SecurityStage
     displayName: Security Stage
@@ -69,7 +67,7 @@ stages:
     dependsOn:
       - TestStage
       - SecurityStage
-    condition: always()
+    condition: succeededOrFailed()
     jobs:
       - job: FinalJob
         displayName: Final Job
