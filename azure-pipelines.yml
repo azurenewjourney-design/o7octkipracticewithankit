@@ -51,7 +51,7 @@ stages:
           - script: echo "Second Stage is running."
             displayName: Second Stage Message
 
-            - script: |
+          - script: |
               echo "Testing stage dependency failure"
               exit 1
             displayName: Intentionally Fail Second Stage
