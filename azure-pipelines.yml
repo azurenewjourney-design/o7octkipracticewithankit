@@ -96,10 +96,8 @@ stages:
 
   - stage: FinalStage
     displayName: Final Stage
-    dependsOn:
-      - TestStage
-      - SecurityStage
-    condition: succeededOrFailed()
+    dependsOn: ApprovalStage
+    condition: succeeded()
     jobs:
       - job: FinalJob
         displayName: Final Job
