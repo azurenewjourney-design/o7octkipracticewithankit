@@ -26,8 +26,8 @@ stages:
       - job: FirstJob
         displayName: First Job
         steps:
-          - script: echo "Hello! My first YAML pipeline is running."
-            displayName: Print Hello Message
+          - script: echo "Basic Pipeline is running."
+            displayName: Basic Pipeline Message
 
           - script: |
               echo "Message: $(message)"
@@ -40,57 +40,16 @@ stages:
               environmentText: 'QA'
               runMessage: true
 
-          - template: templates/print-message.yml
-            parameters:
-              messageText: 'Hello from Production'
-              environmentText: 'PROD'
-              runMessage: false
-              
-          
-          - script: |
-              echo "Failure detected! Running diagnostic message."
-            displayName: Handle Failure
-            condition: failed()     
-
-          
-          - script: |
-              echo "This step runs for success or failure."
-            displayName: Always Run Message
-            condition: always()
-
-        
-          
-
-          - script: |
-              echo "Pipeline continued after the failed step."
-            displayName: Verify Pipeline Continued
-
-         
-          - script: |
-              echo "This step runs after success or failure."
-            displayName: Succeeded Or Failed Test
-            condition: succeededOrFailed()
-
-          
-          - script: |
-              echo "This is the Production-only step."
-            displayName: Production Only Step
-            condition: and(succeeded(), eq(variables['environmentName'], 'PROD'))
-
-
-
-
-
   - stage: SecondStage
     displayName: Second Stage
     dependsOn: BasicPipeline
-    condition: and(succeeded(), eq(variables['environmentName'], 'PROD'))
+    condition: and(succeeded(), eq(${{ parameters.runSecondStage }}, true))
     jobs:
       - job: SecondJob
         displayName: Second Job
         steps:
-          - script: echo "My second stage is running."
-            displayName: Print Second Message
+          - script: echo "Second Stage is running."
+            displayName: Second Stage Message
 
   - stage: DeployStage
     displayName: Deploy Stage
@@ -100,6 +59,8 @@ stages:
       - job: DeployJob
         displayName: Deploy Job
         steps:
-          - script: echo "Application deployed successfully."
+          - script: echo "Deployment stage completed successfully."
             displayName: Deployment Message
+
+ 
 
