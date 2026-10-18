@@ -19,6 +19,16 @@ parameters:
     default: true
 
 stages:
+  - stage: IndependentStage
+    displayName: Independent Stage
+    dependsOn: []
+    jobs:
+      - job: IndependentJob
+        displayName: Independent Job
+        steps:
+          - script: echo "I run independently!"
+            displayName: Independent Stage Message
+
   - stage: BasicPipeline
     displayName: Basic Pipeline
     condition: and(succeeded(), eq(${{ parameters.runValidation }}, true))
