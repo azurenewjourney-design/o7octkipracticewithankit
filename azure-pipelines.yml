@@ -42,7 +42,7 @@ stages:
           - task: TerraformInstaller@1
             displayName: Install Terraform
             inputs:
-              terraformVersion: 'latest'
+              terraformVersion: '1.13.3' 
 
           - script: terraform init
             displayName: Terraform Init
@@ -82,6 +82,11 @@ stages:
         displayName: Generate Terraform Plan
         steps:
           - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: '1.13.3'
 
           - script: terraform init
             displayName: Terraform Init for Plan
@@ -143,7 +148,10 @@ stages:
   
   - stage: ApprovalStage
     displayName: Manual Approval
-    dependsOn: TerraformPlan
+    dependsOn:
+      - TerraformPlan
+      - TestStage
+      - SecurityStage
     condition: succeeded()
     jobs:
       - job: WaitForApproval
@@ -173,7 +181,9 @@ stages:
           - task: TerraformInstaller@1
             displayName: Install Terraform
             inputs:
-              terraformVersion: 'latest'
+              terraformVersion: '1.13.3'
+
+          
 
           - download: current
             artifact: terraform-plan
