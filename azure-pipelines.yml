@@ -40,35 +40,40 @@ stages:
               environmentText: 'QA'
               runMessage: true
 
-  - stage: SecondStage
-    displayName: Second Stage
+  - stage: TestStage
+    displayName: Test Stage
     dependsOn: BasicPipeline
     condition: and(succeeded(), eq(${{ parameters.runSecondStage }}, true))
     jobs:
-      - job: SecondJob
-        displayName: Second Job
-        
-    
-
-       
+      - job: TestJob
+        displayName: Test Job
         steps:
-          - script: echo "Second Stage is running."
-            displayName: Second Stage Message
+          - script: echo "Running tests..."
+            displayName: Run Tests
 
-
-
-          
-
-  - stage: DeployStage
-    displayName: Deploy Stage
-    dependsOn: SecondStage
+  - stage: SecurityStage
+    displayName: Security Stage
+    dependsOn: BasicPipeline
     condition: succeeded()
     jobs:
-      - job: DeployJob
-        displayName: Deploy Job
+      - job: SecurityJob
+        displayName: Security Job
         steps:
-          - script: echo "Deployment stage completed successfully."
-            displayName: Deployment Message
+          - script: echo "Running security checks..."
+            displayName: Security Checks
+
+  - stage: FinalStage
+    displayName: Final Stage
+    dependsOn:
+      - TestStage
+      - SecurityStage
+    condition: succeeded()
+    jobs:
+      - job: FinalJob
+        displayName: Final Job
+        steps:
+          - script: echo "Both parallel stages completed successfully!"
+            displayName: Final Confirmation
 
  
 
