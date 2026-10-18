@@ -49,29 +49,8 @@ stages:
         displayName: Second Job
         
         steps:
-          - script: |
-              echo "Step 1: This step will succeed"
-            displayName: 'Step 1 - Success'
-
-          - script: |
-              echo "Step 2: This step will fail"
-              exit 1
-            displayName: 'Step 2 - Failure'
-
-          - script: |
-              echo "Step 3: This runs only if previous steps succeeded"
-            displayName: 'Step 3 - succeeded()'
-            condition: succeeded()
-
-          - script: |
-              echo "Step 4: This runs when a previous step fails"
-            displayName: 'Step 4 - failed()'
-            condition: failed()
-
-          - script: |
-              echo "Step 5: This runs regardless of success or failure"
-            displayName: 'Step 5 - always()'
-            condition: always()
+          - script: echo "Second Stage is running."
+            displayName: Second Stage Message
 
 
           
