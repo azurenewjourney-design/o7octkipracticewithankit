@@ -72,6 +72,28 @@ stages:
           - script: echo "Running security checks..."
             displayName: Security Checks
 
+
+  
+  - stage: ApprovalStage
+    displayName: Manual Approval
+    dependsOn:
+      - TestStage
+      - SecurityStage
+    condition: succeeded()
+    jobs:
+      - job: WaitForApproval
+        displayName: Wait for Manual Approval
+        pool: server
+        timeoutInMinutes: 1440
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 720
+            inputs:
+              notifyUsers: ''
+              instructions: 'Please review the pipeline results and approve to continue.'
+              onTimeout: reject
+
+
   - stage: FinalStage
     displayName: Final Stage
     dependsOn:
